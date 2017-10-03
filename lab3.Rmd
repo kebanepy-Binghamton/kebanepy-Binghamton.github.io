@@ -1,0 +1,181 @@
+---
+title: "Lab 3!"
+author: "winnie ngare"
+date: "September 28, 2017"
+output: html_notebook
+---
+
+
+
+###Q1
+####Random selection of cars as **training dataset(40) and **test dataset(53) from the MASS Package.
+
+```{r}
+library(MASS)
+df <- Cars93
+nrow(df)
+
+index.full <- 1:93
+set.seed(20)
+{training.data <- sample(1:93,40,replace = FALSE)
+test.data <- df[-training.data,]
+train.data <- df[training.data,]}
+
+```
+
+
+
+
+
+
+
+####Saving both files as csv files.
+
+#####Testing dataset;
+```{r}
+
+
+write.csv(test.data,file = "test.data.csv")      #####testing dataset
+read.csv("test.data.csv")
+```
+
+
+
+
+
+
+
+#####Training dataset;
+
+```{r}
+
+
+
+write.csv(train.data,file="train.data.csv")
+read.csv("train.data.csv")                       #####training dataset
+
+
+
+
+```
+
+
+
+
+
+
+####Finding the no.of USA and non-USA cars in the training Dataset.
+```{r}
+
+usa <- train.data[train.data$Origin=="USA",]
+nrow(usa)
+
+non.usa <- train.data[train.data$Origin=="non-USA",]
+nrow(non.usa)
+
+```
+
+
+
+
+###Q2.
+#####(a),sampling 10 births and 10000 births given probability.
+```{r}
+
+#####10 births
+set.seed(2)
+bg.10 <- sample(c("boy","girl"),10,prob = c(0.515,0.485),replace = TRUE)
+table(bg.10)
+
+
+                                
+
+#####10,000 births
+set.seed(3)
+bg.10000 <- sample(c("boy","girl"),10000,prob = c(0.515,0.485),replace = TRUE)
+table(bg.10000)
+```
+
+
+
+
+
+
+###Q3:Binomial distribution:
+
+
+####probability of having exactly 3 boys:
+
+```{r}
+
+    dbinom(3,size = 10,prob = 0.515)       ####  p(x=3),size=10
+    ```
+
+
+####probability of having 8 or more boys out of 10 births.
+```{r}
+  1-pbinom(7,size = 10,prob = 0.515) 
+```
+
+
+
+
+
+
+
+
+
+####density function of the no.of boy births out of 10
+
+```{r}
+n <- 10
+x <- 0:n
+y <- dbinom(x,size = 10,prob = 0.515)
+plot(x,y,main = "Density function plot",xlab = "No. of boy births",ylab = "Probability",col="green",type = "b")
+```
+
+
+
+
+
+
+####cumulative function of the no. of boys out of 10 births
+```{r}
+n <- 10
+x <- 0:n
+y <- pbinom(x,size = 10,prob = 0.515)
+library(ggplot2)
+plot(x,y,main = "Cumulative probability function plot",xlab = "No. of boy births",ylab = "Probability",col="green",type = "b")
+```
+
+
+###Q4
+###Poisson Distribution.
+
+```{r, message=FALSE, warning=FALSE}
+
+####probability that exactly 4 cars arrive in the next 10 sec;(x=4)
+
+dpois(4,lambda = 5)
+
+
+
+
+####probability that more than 5 cars arrive in the next 10 sec;(x>5)
+ppois(5,lambda = 5,lower.tail = FALSE)
+
+
+#####plot density function of 0-20 cars arriving in the next 10 sec
+
+n <- 20
+x <- 0:n
+y <- dpois(x,lambda = 5)
+
+plot(x,y,main = "Density function plot",xlab = "No.of cars",ylab = "Average time",col="blue",type = "b")
+```
+
+
+
+
+
+
